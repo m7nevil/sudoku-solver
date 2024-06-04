@@ -60,12 +60,20 @@ export class Matrix {
         console.log("inited chunks:\n", this.chunks.map(chunk => chunk.toString()).join('\n'))
     }
 
+    public checkCrossMarks() {
+
+    }
+
     private chunkKey(row: number, col: number) {
         return `${row}-${col}`;
     }
 
     public getCellChunk(row: number, col: number): CellList {
         return this.chunkMap[this.chunkKey(row, col)];
+    }
+
+    public count() {
+        return _.sumBy(this.rows, list => list.count())
     }
 
     public toArray2D() {

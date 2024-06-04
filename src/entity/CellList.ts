@@ -35,19 +35,19 @@ export class CellList {
     public checkMarks() {
         const emptyCells = this.cells
             .filter(cell => cell.value === 0)
-            .sort((a, b) => b.markValues.length - a.markValues.length);
+            .sort((a, b) => b.marks.length - a.marks.length);
 
         for (let i = 0; i < emptyCells.length; i++) {
             const cell = emptyCells[i];
             const cellGroup = [cell];
             for (let j = i + 1; j < emptyCells.length; j++) {
                 const tmpCell = emptyCells[j];
-                if (ArrayUtils.contains(cell.markValues, tmpCell.markValues)) {
+                if (ArrayUtils.contains(cell.marks, tmpCell.marks)) {
                     cellGroup.push(tmpCell);
-                    if (cellGroup.length >= cell.markValues.length) {
+                    if (cellGroup.length >= cell.marks.length) {
                         const otherCells = _.difference(emptyCells, cellGroup);
                         if (otherCells.length > 0) {
-                            otherCells.forEach(c => c.deleteMarks(cell.markValues));
+                            otherCells.forEach(c => c.deleteMarks(cell.marks));
                         }
                     }
                 }
@@ -56,14 +56,14 @@ export class CellList {
 
         const valuedCells = this.cells.filter(cell => cell.value > 0);
         emptyCells.forEach(cell => cell.deleteMarks(valuedCells.map(c => c.value)))
-        const markValues = _.flatten(emptyCells.map(cell => cell.markValues));
+        const markValues = _.flatten(emptyCells.map(cell => cell.marks));
         const counts = _.countBy(markValues);
         let updated = false;
         for (let key in counts) {
             const count = counts[key];
             if (count === 1) {
                 const value = parseInt(key);
-                const cell = this.cells.find(cell => cell.markValues.indexOf(value) >= 0)
+                const cell = this.cells.find(cell => cell.marks.indexOf(value) >= 0)
                 cell.setValue(value);
                 updated = true;
             }
@@ -74,8 +74,16 @@ export class CellList {
         }
     }
 
+    public emptyCells() {
+        return this.cells.filter(cell => cell.value === 0);
+    }
+
     public done() {
         return this.cells.every(cell => cell.value > 0);
+    }
+
+    public count() {
+        return this.cells.filter(cell => cell.value > 0).length;
     }
 
     public toArray() {

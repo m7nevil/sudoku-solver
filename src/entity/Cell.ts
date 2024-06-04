@@ -2,7 +2,7 @@ import _ from "lodash";
 import {Const} from "../common/Const";
 
 export class Cell {
-    public markValues: number[] = Const.FULL;
+    public marks: number[] = Const.FULL;
 
     public constructor(
         public value: number = 0,
@@ -22,11 +22,11 @@ export class Cell {
     }
 
     public deleteMarks(marks: number[]) {
-        this.markValues = _.difference(this.markValues, marks);
+        this.marks = _.difference(this.marks, marks);
     }
 
     public emptyMarks() {
-        this.markValues = [];
+        this.marks = [];
     }
 
     public setValue(value: number) {
