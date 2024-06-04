@@ -26,17 +26,6 @@ export class Matrix {
         return self;
     }
 
-    public static fromCellLists(cellLists: CellList[]) {
-        const self = new Matrix();
-        self.rowCount = cellLists.length;
-        self.colCount = cellLists[0].cells.length;
-        self.rows = cellLists;
-
-        self.initCols();
-
-        return self;
-    }
-
     private initCols() {
         for (let i = 0; i < this.colCount; i ++) {
             const colCells = this.rows.map(row => row.cells[i]);
@@ -69,9 +58,6 @@ export class Matrix {
         }
 
         console.log("inited chunks:\n", this.chunks.map(chunk => chunk.toString()).join('\n'))
-    }
-
-    private checkCellList(list: CellList) {
     }
 
     private chunkKey(row: number, col: number) {

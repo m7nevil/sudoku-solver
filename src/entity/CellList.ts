@@ -41,9 +41,9 @@ export class CellList {
             const cell = emptyCells[i];
             const cellGroup = [cell];
             for (let j = i + 1; j < emptyCells.length; j++) {
-                const cell2 = emptyCells[j];
-                if (ArrayUtils.contains(cell.markValues, cell2.markValues)) {
-                    cellGroup.push(cell2);
+                const tmpCell = emptyCells[j];
+                if (ArrayUtils.contains(cell.markValues, tmpCell.markValues)) {
+                    cellGroup.push(tmpCell);
                     if (cellGroup.length >= cell.markValues.length) {
                         const otherCells = _.difference(emptyCells, cellGroup);
                         if (otherCells.length > 0) {
