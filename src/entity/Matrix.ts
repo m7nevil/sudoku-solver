@@ -1,5 +1,6 @@
 import {Cell} from "./Cell";
 import {CellList} from "./CellList";
+import _ from "lodash";
 
 export class Matrix {
     public array2d: number[][] = [[]];
@@ -54,10 +55,20 @@ export class Matrix {
                 }
                 const cell: Cell = cellList.cells[j];
                 this.chunks[chunkIndex].addCell(cell);
-
-                this.chunkMap[this.chunkKey(i, j)] = this.chunks[chunkIndex];
             }
         }
+
+        for (let i = 0; i < this.rowCount; i++) {
+            const rowIndex = Math.floor(i / 3);
+            const cellList = this.rows[i];
+            for (let j = 0; j < this.colCount; j++) {
+                const chunkIndex = rowIndex * 3 + Math.floor(j / 3);
+                this.chunkMap[this.chunkKey(i, j)] = this.chunks[chunkIndex];
+                console.log(this.chunkKey(i, j), this.chunks[chunkIndex].getValues())
+            }
+        }
+
+        console.log("inited chunks:\n", this.chunks.map(chunk => chunk.toString()).join('\n'))
     }
 
     private checkCellList(list: CellList) {

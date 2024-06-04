@@ -32,10 +32,30 @@ export class CellList {
     }
 
     public checkMarks() {
+        // const emptyCells = this.cells.filter(cell => cell.value === 0);
+        // const longestCell = _.maxBy(emptyCells, cell => cell.markValues.length)
+        // for (let i = longestCell.markValues.length-1; i >= 1 ; i --) {
+        //
+        // }
+
         const markValues = _.flatten(this.cells.map(cell => cell.markValues));
         const counts = _.countBy(markValues);
-        console.log(counts);
+        let updated = false;
+        for (let key in counts) {
+            const count = counts[key];
+            if (count === 1) {
+                const value = parseInt(key);
+                const cell = this.cells.find(cell => cell.markValues.indexOf(value) >= 0)
+                cell.setValue(value);
+                updated = true;
+            }
+        }
+
+        if (updated) {
+            this.checkMarks();
+        }
     }
+
 
     public toArray() {
         return this.array;
