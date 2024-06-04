@@ -48,4 +48,8 @@ export class Solver {
         this.matrix.chunks.forEach(list => list.checkMarks());
     }
 
+    public done() {
+        return this.matrix.rows.every(list => list.done())
+    }
+
 }

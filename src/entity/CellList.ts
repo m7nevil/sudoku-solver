@@ -1,5 +1,6 @@
 import {Cell} from "./Cell";
 import _ from "lodash";
+import {ArrayUtils} from "../common/ArrayUtils";
 
 export class CellList {
 
@@ -32,13 +33,30 @@ export class CellList {
     }
 
     public checkMarks() {
-        // const emptyCells = this.cells.filter(cell => cell.value === 0);
-        // const longestCell = _.maxBy(emptyCells, cell => cell.markValues.length)
-        // for (let i = longestCell.markValues.length-1; i >= 1 ; i --) {
-        //
-        // }
+        const emptyCells = this.cells
+            .filter(cell => cell.value === 0)
+            .sort((a, b) => b.markValues.length - a.markValues.length);
 
-        const markValues = _.flatten(this.cells.map(cell => cell.markValues));
+        for (let i = 0; i < emptyCells.length; i++) {
+            const cell = emptyCells[i];
+            const cellGroup = [cell];
+            for (let j = i + 1; j < emptyCells.length; j++) {
+                const cell2 = emptyCells[j];
+                if (ArrayUtils.contains(cell.markValues, cell2.markValues)) {
+                    cellGroup.push(cell2);
+                    if (cellGroup.length >= cell.markValues.length) {
+                        const otherCells = _.difference(emptyCells, cellGroup);
+                        if (otherCells.length > 0) {
+                            otherCells.forEach(c => c.deleteMarks(cell.markValues));
+                        }
+                    }
+                }
+            }
+        }
+
+        const valuedCells = this.cells.filter(cell => cell.value > 0);
+        emptyCells.forEach(cell => cell.deleteMarks(valuedCells.map(c => c.value)))
+        const markValues = _.flatten(emptyCells.map(cell => cell.markValues));
         const counts = _.countBy(markValues);
         let updated = false;
         for (let key in counts) {
@@ -56,6 +74,9 @@ export class CellList {
         }
     }
 
+    public done() {
+        return this.cells.every(cell => cell.value > 0);
+    }
 
     public toArray() {
         return this.array;

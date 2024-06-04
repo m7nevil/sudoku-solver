@@ -5,7 +5,7 @@
     "lib": [
       "dom",
       "es5",
-      "es6"
+      "esnext"
     ],
     "sourceMap": true,
     "esModuleInterop": true
