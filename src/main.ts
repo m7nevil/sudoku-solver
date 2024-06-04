@@ -32,8 +32,6 @@ const matrix = Matrix.fromArray2D(array2d);
 const solver = new Solver(matrix);
 
 console.log(matrix.toString());
-console.log('-----------------------------------------------------')
-console.log(matrix.printChunks());
 console.log('---------------------Game-Start----------------------')
 while (!solver.done()) {
     solver.setMarkValues();
