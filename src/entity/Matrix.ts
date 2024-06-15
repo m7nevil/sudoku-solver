@@ -57,7 +57,7 @@ export class Matrix {
             }
         }
 
-        console.log("inited chunks:\n", this.chunks.map(chunk => chunk.toString()).join('\n'))
+        console.log("Initial chunks:\n", this.chunks.map(chunk => chunk.toString()).join('\n'))
     }
 
     public checkCrossMarks() {
